@@ -57,3 +57,6 @@ yarn-error.log*
 
 # api integration test runtime state
 /tests/api/.runtime
+
+# Shim pnpm créé par scripts/vercel-build.sh
+.vercel-bin/

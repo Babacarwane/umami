@@ -17,4 +17,12 @@ if [ -z "$DIRECT_DATABASE_URL" ] && [ -n "$POSTGRES_URL_NON_POOLING" ]; then
   export DIRECT_DATABASE_URL
 fi
 
+# Umami exige pnpm 12.3.4 (engines.pnpm) pour « pnpm --filter … build » ; Vercel fournit une version plus ancienne.
+# Même version que l'installCommand de vercel.json, installée par npx (le shim est recréé à chaque build).
+mkdir -p .vercel-bin
+printf '#!/bin/sh\nexec npx --yes pnpm@12.3.4 "$@"\n' > .vercel-bin/pnpm
+chmod +x .vercel-bin/pnpm
+PATH="$PWD/.vercel-bin:$PATH"
+export PATH
+
 exec npm run build
